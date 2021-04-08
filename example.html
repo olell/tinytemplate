@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset='utf-8'>
     <title>Tinytemplate Example</title>
 </head>
 <body>
     
+    <div id="template_container"></div>
+
     <script src='tinytemplate.js'></script>
+    <script>
+
+        (function() {
+            console.log("Starting example");
+
+            // render the template from "example_template.html"
+            var html = render_template("example_template.html", {
+                
+            }, function (html) {
+                // put the rendered template in the "template_container" container
+                document.getElementById("template_container").innerHTML = html;    
+            });
+            
+            
+        })();
+
+    </script>
+
 </body>
 </html>

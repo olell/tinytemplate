@@ -26,7 +26,38 @@
  * 
  */
 
-function render_template_string(template, args) {
+function render_template(template_path, args, onfinish) {
+    /* This function is basically a wrapper for render_template_string which requests the
+     * template file from a given path.. for more information see README.md */
+    var render_result = "";
+    fetch(template_path)
+        .then(
+            function (response) {
+                if (response.status !== 200) {
+                    console.error("Tinytemplate rendering error: Couldn't load template file. Status Code: " + response.status);
+                    return;
+                }
+
+                response.text().then(function(data){
+                    render_template_string(data, args, onfinish);
+                });
+            }
+        )
+        .catch(function(err){
+            console.error('Tinytemplate fetch error :-S', err);
+            return;
+        });
+    return render_result;
+}
+
+function render_template_string(template, args, onfinish) {
     /* This function renders a template string with given args */
     /* For template syntax documentation see README.md */
+
+    var render_result = template;
+
+    
+
+    onfinish(render_result);
+
 }
