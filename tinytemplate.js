@@ -50,7 +50,8 @@ function render_template(template_path, args, onfinish) {
     return render_result;
 }
 
-function find_template_control(control, control_end, template) {
+function _find_template_control(control, control_end, template) {
+    /* This file returns a list the positions of controls */
     var results = new Array();
 
     var index = template.indexOf(control);
@@ -98,13 +99,13 @@ function render_template_string(template, args, onfinish) {
     /* For template syntax documentation see README.md */
 
     // Remove all comments -- this will not be handled in a custom function
-    var comments = find_template_control("{/\*", "\*/}", template);
+    var comments = _find_template_control("{/\*", "\*/}", template);
     comments.reverse().forEach(function (comment) {
         template = template.slice(0, comment.start) + template.slice(comment.end);
     });
 
     // Placing placeholders -- this should be the last control executed
-    var placeholders = find_template_control("{", "}", template)
+    var placeholders = _find_template_control("{", "}", template)
     template = _handle_placeholder_controls(placeholders, template, args)
 
     onfinish(template)
