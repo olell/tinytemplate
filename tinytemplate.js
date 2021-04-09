@@ -61,11 +61,11 @@ function _find_template_control(control, control_end, template) {
         results.push({
             start: index,
             end: end_index + (control_end.length)
-        })
+        });
         index = template.indexOf(control, index + 1);
     }
 
-    return results
+    return results;
 }
 
 function _handle_placeholder_controls(placeholders, template, args) {
@@ -105,8 +105,8 @@ function render_template_string(template, args, onfinish) {
     });
 
     // Placing placeholders -- this should be the last control executed
-    var placeholders = _find_template_control("{", "}", template)
-    template = _handle_placeholder_controls(placeholders, template, args)
+    var placeholders = _find_template_control("{", "}", template);
+    template = _handle_placeholder_controls(placeholders, template, args);
 
-    onfinish(template)
+    onfinish(template);
 }
