@@ -17,6 +17,14 @@
             // render the template from "example_template.html"
             var html = render_template("example_template.html", {
                 
+                test: "bla",
+                path: {
+                    subsegment: {
+                        subsubsegmentone: "12345678",
+                        subsubsegmenttwo: "abcdefgi"
+                    }
+                }
+
             }, function (html) {
                 // put the rendered template in the "template_container" container
                 document.getElementById("template_container").innerHTML = html;    
