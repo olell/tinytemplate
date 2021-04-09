@@ -67,14 +67,70 @@ function _find_template_control(control, control_end, template) {
 
     return results;
 }
+String.prototype.toTitleCase = function() {
+    /* This code is copied from stackoverflow.
+    Posted 2015 by Geoffrey Booth
+    (https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript)
+    */
+    var i, j, str, lowers, uppers;
+    str = this.replace(/([^\W_]+[^\s-]*) */g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  
+    // Certain minor words should be left lowercase unless 
+    // they are the first or last words in the string
+    lowers = ['A', 'An', 'The', 'And', 'But', 'Or', 'For', 'Nor', 'As', 'At', 
+    'By', 'For', 'From', 'In', 'Into', 'Near', 'Of', 'On', 'Onto', 'To', 'With'];
+    for (i = 0, j = lowers.length; i < j; i++)
+      str = str.replace(new RegExp('\\s' + lowers[i] + '\\s', 'g'), 
+        function(txt) {
+          return txt.toLowerCase();
+        });
+  
+    // Certain words such as initialisms or acronyms should be left uppercase
+    uppers = ['Id', 'Tv'];
+    for (i = 0, j = uppers.length; i < j; i++)
+      str = str.replace(new RegExp('\\b' + uppers[i] + '\\b', 'g'), 
+        uppers[i].toUpperCase());
+  
+    return str;
+}
+
+function _apply_modifiers(text, modifiers) {
+    var result = text;
+    console.log(result);
+
+    modifiers.forEach(function(modifier) {
+
+        console.log("mr", modifier, result);
+        if (modifier == "title") {
+            result = result.toTitleCase();
+        }
+        else if (modifier == "upper") {
+            result = result.toUpperCase();
+        }
+        else if (modifier == "lower") {
+            result = result.toLowerCase();
+        }
+
+    });
+
+    return result;
+}
 
 function _handle_placeholder_controls(placeholders, template, args) {
     /* this function handles simple placeholder controls */
     placeholders.reverse().forEach(function(placeholder) {
         var placeholder_name = template.slice(placeholder.start+1, placeholder.end-1).trim(); // name of placeholder without spaces
-        console.log(placeholder_name);
 
-        
+        // Getting Modifiers
+        var modifiers;
+        if (placeholder_name.includes('|')) {
+            modifiers = placeholder_name.split("|");
+            placeholder_name = modifiers.splice(0, 1)[0];
+        }
+
+        // Replacing with value from args object
         var placeholder_value;
         if (placeholder_name.includes('.')) {
             var path = placeholder_name.split('.');
@@ -86,6 +142,10 @@ function _handle_placeholder_controls(placeholders, template, args) {
         else {
             placeholder_value = args[placeholder_name];
         }
+        
+        console.log(modifiers);
+        if (modifiers !== undefined)
+            placeholder_value = _apply_modifiers(placeholder_value, modifiers);
 
         template = template.slice(0, placeholder.start) + placeholder_value + template.slice(placeholder.end);
 

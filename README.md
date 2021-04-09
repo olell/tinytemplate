@@ -22,6 +22,15 @@ Example:
 ```
 Leading and trailing spaces are of course ignored.
 
+### Modifier
+Every control may contain modifier. You can modify the templating result
+with them. They are seperated by `|` and you can use as many as you want. They are interpreted in chronological order.
+| Modifier | Description           |
+|----------|-----------------------|
+| title    | convert to title case |
+| lower    | convert to lower case |
+| upper    | convert to upper case |
+
 ## License
 MIT License
 
