@@ -98,11 +98,9 @@ String.prototype.toTitleCase = function() {
 
 function _apply_modifiers(text, modifiers) {
     var result = text;
-    console.log(result);
 
     modifiers.forEach(function(modifier) {
 
-        console.log("mr", modifier, result);
         if (modifier == "title") {
             result = result.toTitleCase();
         }
@@ -143,7 +141,6 @@ function _handle_placeholder_controls(placeholders, template, args) {
             placeholder_value = args[placeholder_name];
         }
         
-        console.log(modifiers);
         if (modifiers !== undefined)
             placeholder_value = _apply_modifiers(placeholder_value, modifiers);
 
