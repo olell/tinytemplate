@@ -31,6 +31,16 @@ with them. They are seperated by `|` and you can use as many as you want. They a
 | lower    | convert to lower case |
 | upper    | convert to upper case |
 
+Example:
+```
+{/* Title casing: "hello world" -> "Hello World" */}
+{some.value|title}
+
+{/* Lower/Upper Case: "hello" <-> "HELLO" */}
+{some.other.value|lower}
+{another.string|upper}
+```
+
 ## License
 MIT License
 
